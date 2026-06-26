@@ -1,0 +1,9 @@
+field_name,regex_pattern
+num_fatura,\d{27}(\d{8})
+uc,"(\d[\d.]{5,}-\d{2})"
+medidor,MEDIDOR:\s*0*(\d+)
+valor,"(?:(?:\d{2}/\d{2}/\d{4})\s+|TOTAL\s+)([\d.\s]+,\s*\d{2})"
+consumo,"Consumo kWh\s*(\d+[\s\d]*),\d+"
+vencimento,(?:MEDIDOR:|CEP:)\s*.*?\s*(\d{2}/\d{2}/\d{4})
+debito,Débito automático
+retencao,"Retenção Imposto de Renda\s+(?:\d+,\d{4}\s+)?(\d+[\s\d]*,[\s\d]+)"

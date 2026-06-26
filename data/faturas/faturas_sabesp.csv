@@ -1,0 +1,9 @@
+field_name,regex_pattern
+num_fatura,(SOR\d+)
+rgi,Pde/Rgi:\s*(\d+)
+hidrometro,Hidrômetro:\s*([A-Z0-9]+)
+valor,"TOTAL\s*:?\s*R\$\s*[\s\*]*([\d,.]+)"
+consumo,Água:\s*\d{2}/\d{2}/\d{2}\s*\d+(?:\s*\d{2}/\d{2}/\d{2}\s*\d+)?\s*(\d+)
+vencimento,VENCIMENTO:\s*(\d{2}/\d{2}/\d{4})
+debito,DÉBITO AUTOMÁTICO
+retencao,"Retenção:.*?%\s+(\d+,\d{2})"
