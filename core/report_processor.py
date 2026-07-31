@@ -9,17 +9,22 @@ def generate_report(processed_dataframe, utility_company, location, mes_competen
         
         fichas_path = f'data/fichas/fichas_{utility_lower}_{location_mapped}.csv'
         identificadores_path = f'data/identificadores/identificadores_{utility_lower}_{location_mapped}.csv'
+        dotacoes_path = 'data/dotacoes/dotacoes.csv'
         
         if not os.path.exists(fichas_path):
             raise FileNotFoundError(f'O arquivo de fichas não foi encontrado no caminho: {fichas_path}')
         if not os.path.exists(identificadores_path):
             raise FileNotFoundError(f'O arquivo de identificadores não foi encontrado no caminho: {identificadores_path}')
+        if not os.path.exists(dotacoes_path):
+            raise FileNotFoundError(f'O arquivo de dotações não foi encontrado no caminho: {dotacoes_path}')
             
         fichas_dataframe = pd.read_csv(fichas_path)
         identificadores_dataframe = pd.read_csv(identificadores_path)
+        dotacoes_dataframe = pd.read_csv(dotacoes_path)
         
         fichas_dataframe.columns = fichas_dataframe.columns.str.strip().str.lower()
         identificadores_dataframe.columns = identificadores_dataframe.columns.str.strip().str.lower()
+        dotacoes_dataframe.columns = dotacoes_dataframe.columns.str.strip().str.lower()
         
         identifier_column = 'uc' if utility_company == 'EDP' else 'rgi'
         
@@ -28,6 +33,7 @@ def generate_report(processed_dataframe, utility_company, location, mes_competen
         
         merged_dataframe = pd.merge(processed_dataframe, identificadores_dataframe, on=identifier_column, how='inner')
         final_dataframe = pd.merge(merged_dataframe, fichas_dataframe, on=['ficha', 'acao'], how='inner')
+        final_dataframe = pd.merge(final_dataframe, dotacoes_dataframe, on='ficha', how='inner')
         
         def clean_currency(value):
             if pd.isna(value) or str(value).strip() == '':
@@ -51,7 +57,7 @@ def generate_report(processed_dataframe, utility_company, location, mes_competen
         else:
             final_dataframe['ir_float'] = 0.0
             
-        grouped_dataframe = final_dataframe.groupby(['ficha', 'acao', 'secretaria', 'empenho', 'af']).agg(
+        grouped_dataframe = final_dataframe.groupby(['dotacao', 'acao', 'secretaria', 'empenho', 'af']).agg(
             valor_liquido=('valor_liquido_float', 'sum'),
             ir=('ir_float', 'sum')
         ).reset_index()
@@ -109,7 +115,7 @@ def generate_report(processed_dataframe, utility_company, location, mes_competen
             sum_bruto = 0
             
             for _, record in grouped_dataframe.iterrows():
-                worksheet.write(current_row, 0, record['ficha'], data_format)
+                worksheet.write(current_row, 0, record['dotacao'], data_format)
                 worksheet.write(current_row, 1, record['acao'], data_format)
                 worksheet.write(current_row, 2, record['secretaria'], data_format)
                 worksheet.write(current_row, 3, record['empenho'], data_format)
