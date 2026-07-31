@@ -23,7 +23,6 @@ def home():
 
     faturas = st.file_uploader('Faça o upload de suas faturas aqui:', type=['pdf'], accept_multiple_files=True)
 
-    # Exibe a próxima seção automaticamente assim que houver arquivos no uploader
     if faturas:
         st.subheader('2. Opções de Processamento')
         
