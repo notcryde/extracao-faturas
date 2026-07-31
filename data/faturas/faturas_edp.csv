@@ -1,5 +1,5 @@
 field_name,regex_pattern
-num_fatura,\d{27}(\d{8})
+num_fatura,\d{26}(\d{8})
 uc,"(\d[\d.]{5,}-\d{2})"
 medidor,MEDIDOR:\s*0*(\d+)
 valor,"(?:(?:\d{2}/\d{2}/\d{4})\s+|TOTAL\s+)([\d.\s]+,\s*\d{2})"
